@@ -63,7 +63,9 @@ class MainActivity : ComponentActivity() {
                     LaunchedEffect(Unit) {
                         while (true) {
                             delay(1.seconds)
-                            currentTime = playMediaController.getCurrentPosition()
+                            if (isPlaying) {
+                                currentTime = playMediaController.getCurrentPosition()
+                            }
                         }
                     }
 
@@ -71,8 +73,13 @@ class MainActivity : ComponentActivity() {
                        playMediaController.callback = { event, currentPosition, duration, playing ->
                            isPlaying = playing
                            currentEvent = event
-                           currentTime = currentPosition
-                           totalDuration = duration
+                           if (event == PlayerEvent.STOPPED) {
+                               currentTime = 0L
+                               totalDuration = 0L
+                           } else {
+                               currentTime = currentPosition
+                               totalDuration = duration
+                           }
                        }
                        onDispose { playMediaController.destroy() }
                     }

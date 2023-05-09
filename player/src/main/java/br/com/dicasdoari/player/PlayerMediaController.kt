@@ -25,7 +25,6 @@ class PlayerMediaController(context: Context): Playback {
         controllerFuture.addListener({configureController()}, MoreExecutors.directExecutor())
     }
 
-
     private fun configureController(){
         controller?.addListener( object: Player.Listener {
             override fun onEvents(player: Player, events: Player.Events) {
